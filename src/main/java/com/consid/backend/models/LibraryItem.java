@@ -1,8 +1,11 @@
 package com.consid.backend.models;
 
+
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
+
 
 @Entity
 @Table(name = "libraryItem")
@@ -12,24 +15,29 @@ public class LibraryItem {
     @Column(name = "id")
     private int id;
 
+    @NotNull
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category categoryId;
 
+    @NotNull
     private String title;
 
+    @NotNull
     private String author;
 
-    private int pages;
+    private Integer pages;
 
-    private int runTimeMinutes;
+    private Integer runTimeMinutes;
 
+    @NotNull
     private boolean isBorrowable;
 
     private String borrower;
 
     private Date borrowDate;
 
+    @NotNull
     private String type;
 
     public int getId() {
@@ -110,5 +118,13 @@ public class LibraryItem {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public LibraryItem() {
+
+    }
+
+    public LibraryItem(Category categoryId) {
+        this.categoryId = categoryId;
     }
 }

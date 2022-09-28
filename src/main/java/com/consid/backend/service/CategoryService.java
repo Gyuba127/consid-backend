@@ -2,37 +2,45 @@ package com.consid.backend.service;
 
 import com.consid.backend.models.Category;
 import com.consid.backend.repository.CategoryRepository;
+import com.consid.backend.repository.LibraryItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
 public class CategoryService implements CategoryInterface{
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private LibraryItemRepository libraryItemRepository;
 
 
     @Override
     public boolean saveCategory(String category) {
-        System.out.println("in save");
         if(!categoryRepository.existsBycategoryName(category)){
-            System.out.println("does not exsist");
             categoryRepository.save(new Category(category));
             return true;
         }
 
        else return false;
     }
-
+    // check this method
     @Override
-    public boolean updateCategory(String category) {
+    public boolean updateCategory(Category category, String updateString) {
+        if(!categoryRepository.existsBycategoryName(updateString)){
+            category.setCategoryName(updateString);
+            categoryRepository.save(category);
+            return true;
+        }
         return false;
     }
 
     @Override
-    public boolean deleteCategory(String category) throws SQLException {
+    public boolean deleteCategory(Category category) {
+        if(!libraryItemRepository.existsByCategoryId(category)){
+            categoryRepository.delete(category);
+            return true;
+        }
         return false;
     }
 

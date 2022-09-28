@@ -17,16 +17,25 @@ public class CategoryController {
 
     @PostMapping("/category/add/{categoryName}")
     public ResponseEntity<?> createCategory(@PathVariable String categoryName){
-        try{
-            if(categoryService.saveCategory(categoryName)) return ResponseEntity.ok(categoryName + " has been saved.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(categoryName+ " is already saved");
+        if(categoryService.saveCategory(categoryName)) return ResponseEntity.ok(categoryName + " has been saved.");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(categoryName+ " is already saved");
     }
 
+    @PutMapping("/category/update/{id}/{categoryName}/{updateString}")
+    public ResponseEntity<?> updateCategory(@PathVariable int id, @PathVariable String categoryName, @PathVariable String updateString){
+        if(categoryService.updateCategory(new Category(id,categoryName), updateString)) return ResponseEntity.ok("Category has been updated.");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not update since: "+updateString+ " is already saved");
+    }
+
+    //mainly used to check data
     @GetMapping("/category/all")
     public ResponseEntity<List<Category>> getAllCategories(){
         return new ResponseEntity<>(categoryService.getCategories(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/category/delete/{id}/{categoryName}")
+    public ResponseEntity<?> deleteCategory(@PathVariable int id, @PathVariable String categoryName){
+        if(categoryService.deleteCategory(new Category(id,categoryName))) return ResponseEntity.ok("Category has been deleted.");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not delete since: "+categoryName+ " is referenced");
     }
 }

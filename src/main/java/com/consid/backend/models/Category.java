@@ -1,5 +1,7 @@
 package com.consid.backend.models;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class Category {
     @Column(name = "id")
     private int id;
 
+    @NotNull
     @Column(unique = true)
     private String categoryName;
 
@@ -33,6 +36,11 @@ public class Category {
     }
 
     public Category(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public Category(int id, String categoryName) {
+        this.id = id;
         this.categoryName = categoryName;
     }
 }

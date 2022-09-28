@@ -1,5 +1,7 @@
 package com.consid.backend.service;
 
+import com.consid.backend.models.Category;
+
 import java.sql.SQLException;
 
 /**
@@ -7,6 +9,6 @@ import java.sql.SQLException;
  */
 public interface CategoryInterface {
     public boolean saveCategory(String category);
-    public boolean updateCategory(String category);
-    public boolean deleteCategory(String category) throws SQLException;
+    public boolean updateCategory(Category category, String updateString);
+    public boolean deleteCategory(Category category) throws SQLException;
 }
