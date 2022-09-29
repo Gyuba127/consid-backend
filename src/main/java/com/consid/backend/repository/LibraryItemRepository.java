@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LibraryItemRepository extends JpaRepository<LibraryItem, Integer> {
     Boolean existsByCategoryId(Category category);
+    Boolean existsById(int id);
+    void deleteById(int id);
 }

@@ -72,27 +72,27 @@ public class LibraryItem {
         this.author = author;
     }
 
-    public int getPages() {
+    public Integer getPages() {
         return pages;
     }
 
-    public void setPages(int pages) {
+    public void setPages(Integer pages) {
         this.pages = pages;
     }
 
-    public int getRunTimeMinutes() {
+    public Integer getRunTimeMinutes() {
         return runTimeMinutes;
     }
 
-    public void setRunTimeMinutes(int runTimeMinutes) {
+    public void setRunTimeMinutes(Integer runTimeMinutes) {
         this.runTimeMinutes = runTimeMinutes;
     }
 
-    public boolean isBorrowable() {
+    public boolean getisBorrowable() {
         return isBorrowable;
     }
 
-    public void setBorrowable(boolean borrowable) {
+    public void setisBorrowable(boolean borrowable) {
         isBorrowable = borrowable;
     }
 
@@ -124,7 +124,6 @@ public class LibraryItem {
 
     }
 
-    public LibraryItem(Category categoryId) {
-        this.categoryId = categoryId;
-    }
+
+
 }

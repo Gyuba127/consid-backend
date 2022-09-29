@@ -5,6 +5,8 @@ import com.consid.backend.repository.CategoryRepository;
 import com.consid.backend.repository.LibraryItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -25,9 +27,10 @@ public class CategoryService implements CategoryInterface{
        else return false;
     }
     // check this method
+    @Transactional
     @Override
     public boolean updateCategory(Category category, String updateString) {
-        if(!categoryRepository.existsBycategoryName(updateString)){
+        if(!categoryRepository.existsBycategoryName(updateString) && categoryRepository.existsById(category.getId())){
             category.setCategoryName(updateString);
             categoryRepository.save(category);
             return true;
