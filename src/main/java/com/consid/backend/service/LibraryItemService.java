@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class LibraryItemService implements LibraryItemInterface{
@@ -32,6 +33,7 @@ public class LibraryItemService implements LibraryItemInterface{
     public boolean updateLibraryItem(LibraryItem updatedItem) {
         if(libraryItemRepository.existsById(updatedItem.getId())){
             libraryItemRepository.save(updatedItem);
+            return true;
         }
         return false;
     }
@@ -78,5 +80,10 @@ public class LibraryItemService implements LibraryItemInterface{
             acronym += Character.toUpperCase(word.charAt(0));
         }
         return acronym;
+    }
+
+    public List<LibraryItem> getItems(){
+        List<LibraryItem> items = libraryItemRepository.findAll();
+        return items;
     }
 }

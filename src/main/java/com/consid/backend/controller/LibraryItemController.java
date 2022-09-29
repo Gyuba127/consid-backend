@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class LibraryItemController {
@@ -38,9 +40,15 @@ public class LibraryItemController {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something happened.");
     }
 
-    @PutMapping("library/update/")
+    @PutMapping("library/update")
     public ResponseEntity<?> updateItem(@RequestBody LibraryItem libraryItem){
-        if(libraryItemService.updateLibraryItem(libraryItem)) return ResponseEntity.ok("Item has been checked out.");
+        if(libraryItemService.updateLibraryItem(libraryItem)) return ResponseEntity.ok("Item has been updated.");
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something happened.");
     }
+
+    @GetMapping("library/get")
+    public List<LibraryItem> getAllItems(){
+        return libraryItemService.getItems();
+    }
+
 }
