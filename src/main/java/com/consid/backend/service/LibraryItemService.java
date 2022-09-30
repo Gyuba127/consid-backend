@@ -16,11 +16,14 @@ public class LibraryItemService implements LibraryItemInterface{
     public boolean saveLibraryItem(LibraryItem libraryItem) {
         try{
             String title = libraryItem.getTitle();
-            String acronym = acronymTitle(title);
-            String newTitle = title + " ("+acronym+")";
-
-            libraryItem.setTitle(newTitle);
-            libraryItemRepository.save(libraryItem);
+            String[] words = title.split(" ");
+            if(words.length >= 2){
+                String acronym = acronymTitle(words);
+                String newTitle = title + " ("+acronym+")";
+                libraryItem.setTitle(newTitle);
+                libraryItemRepository.save(libraryItem);
+            }
+            else libraryItemRepository.save(libraryItem);
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -74,9 +77,9 @@ public class LibraryItemService implements LibraryItemInterface{
     }
 
     // only use when there's more than one word?
-    private String acronymTitle(String title){
+    private String acronymTitle(String[] words){
         String acronym = "";
-        for(String word : title.split(" ")){
+        for(String word : words){
             acronym += Character.toUpperCase(word.charAt(0));
         }
         return acronym;
