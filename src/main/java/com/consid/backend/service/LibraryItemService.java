@@ -5,6 +5,9 @@ import com.consid.backend.repository.LibraryItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -15,15 +18,8 @@ public class LibraryItemService implements LibraryItemInterface{
     @Override
     public boolean saveLibraryItem(LibraryItem libraryItem) {
         try{
-            String title = libraryItem.getTitle();
-            String[] words = title.split(" ");
-            if(words.length >= 2){
-                String acronym = acronymTitle(words);
-                String newTitle = title + " ("+acronym+")";
-                libraryItem.setTitle(newTitle);
-                libraryItemRepository.save(libraryItem);
-            }
-            else libraryItemRepository.save(libraryItem);
+            acronymTitle(libraryItem);
+            libraryItemRepository.save(libraryItem);
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -35,6 +31,7 @@ public class LibraryItemService implements LibraryItemInterface{
     @Override
     public boolean updateLibraryItem(LibraryItem updatedItem) {
         if(libraryItemRepository.existsById(updatedItem.getId())){
+            acronymTitle(updatedItem);
             libraryItemRepository.save(updatedItem);
             return true;
         }
@@ -77,16 +74,27 @@ public class LibraryItemService implements LibraryItemInterface{
     }
 
     // only use when there's more than one word?
-    private String acronymTitle(String[] words){
-        String acronym = "";
-        for(String word : words){
-            acronym += Character.toUpperCase(word.charAt(0));
+    private void acronymTitle(LibraryItem libraryItem){
+        String title = libraryItem.getTitle();
+        String[] words = title.split(" ");
+        if(words.length >= 2){
+            String acronym = "";
+            for(String word : words){
+                acronym += Character.toUpperCase(word.charAt(0));
+            }
+            String newTitle = title + " ("+acronym+")";
+            libraryItem.setTitle(newTitle);
         }
-        return acronym;
     }
 
     public List<LibraryItem> getItems(){
         List<LibraryItem> items = libraryItemRepository.findAll();
+        Collections.sort(items, new Comparator<LibraryItem>() {
+            @Override
+            public int compare(LibraryItem o1, LibraryItem o2) {
+                return o1.getCategoryId().getCategoryName().compareTo(o2.getCategoryId().getCategoryName());
+            }
+        });
         return items;
     }
 }
