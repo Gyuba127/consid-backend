@@ -27,7 +27,7 @@ public class CategoryController {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not update since: "+updateString+ " is already saved");
     }
 
-    //mainly used to check data
+
     @GetMapping("/category/all")
     public ResponseEntity<List<Category>> getAllCategories(){
         return new ResponseEntity<>(categoryService.getCategories(), HttpStatus.OK);

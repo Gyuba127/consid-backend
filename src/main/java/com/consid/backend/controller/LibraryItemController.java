@@ -31,13 +31,13 @@ public class LibraryItemController {
     @PutMapping("library/checkout/{borrowerName}")
     public ResponseEntity<?> checkOutItem(@RequestBody LibraryItem libraryItem, @PathVariable String borrowerName){
         if(libraryItemService.checkOutItem(libraryItem, borrowerName)) return ResponseEntity.ok(libraryItem.getTitle() + " has been checked out.");
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something happened.");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not check-out this item.");
     }
 
     @PutMapping("library/checkin")
     public ResponseEntity<?> checkInItem(@RequestBody LibraryItem libraryItem){
-        if(libraryItemService.checkInItem(libraryItem)) return ResponseEntity.ok(libraryItem.getTitle() + " has been checked out.");
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something happened.");
+        if(libraryItemService.checkInItem(libraryItem)) return ResponseEntity.ok(libraryItem.getTitle() + " has been checked in.");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not check-in this item.");
     }
 
     @PutMapping("library/update")
